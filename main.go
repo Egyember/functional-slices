@@ -1,3 +1,5 @@
+// Package functionalslices
+// fontains public api and most implementations for functional slice operations like map and filter
 package functionalslices
 
 func Filter[T any](s []T, cond func(T) bool) (r []T) {
