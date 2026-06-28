@@ -42,3 +42,27 @@ func TestMap(t *testing.T) {
 		}
 	}
 }
+
+func TestParMap(t *testing.T) {
+	s := make([]int, 10)
+	for i := range 10 {
+		s[i] = 1
+	}
+	r := Map(s, func(i int) int {
+		if i == 1 {
+			return 2
+		}
+		return 3
+	})
+	p := ParMap(s, func(i int) int {
+		if i == 1 {
+			return 2
+		}
+		return 3
+	}, 4)
+	for i := range 10 {
+		if r[i] != p[i] {
+			t.Errorf("wrong value")
+		}
+	}
+}
