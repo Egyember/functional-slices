@@ -27,3 +27,22 @@ func FoldR[A any, B any](start A, slice []B, fn func(A, B) A) (r A) {
 	}
 	return
 }
+
+func ParMap[A any, B any](s []A, fn func(A) B, threadlimit int) (r []B) {
+	r = make([]B, len(s))
+	tlch := make(chan bool, threadlimit)
+	for range threadlimit {
+		tlch <- true
+	}
+	for k, v := range s {
+		go func() {
+			<-tlch
+			r[k] = fn(v)
+		}()
+		tlch <- true
+	}
+	for range threadlimit {
+		<-tlch
+	}
+	return
+}
